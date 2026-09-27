@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nurul Qur'an — Al-Qur'an & Waktu Shalat</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#03100b;
+  --card:rgba(5,25,17,.88);
+  --gold:#dfc77b;
+  --muted:#9aa99f;
+  --line:rgba(223,199,123,.18);
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 50% 0%,#123b28 0%,#03100b 45%,#010705 100%);
+  color:#f2ecd9;
+  font-family:Inter,sans-serif;
+}
+
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(223,199,123,.04),transparent 30%),
+    radial-gradient(circle at 80% 70%,rgba(0,255,150,.03),transparent 30%);
+}
+
+header{
+  text-align:center;
+  padding:45px 18px 20px;
+}
+
+.moon{
+  width:70px;
+  height:70px;
+  margin:auto;
+  border-radius:50%;
+  background:#f2e7b6;
+  box-shadow:0 0 45px rgba(242,231,182,.15);
+  position:relative;
+}
+
+.moon:after{
+  content:"";
+  position:absolute;
+  width:65px;
+  height:65px;
+  border-radius:50%;
+  background:#07150f;
+  left:-20px;
+  top:-7px;
+}
+
+h1{
+  font:400 44px Amiri,serif;
+  color:var(--gold);
+  margin:15px 0 2px;
+}
+
+header p{
+  color:#a7b2aa;
+  font-size:10px;
+  letter-spacing:1.5px;
+}
+
+.wrap{
+  width:min(1050px,92%);
+  margin:auto;
+  padding-bottom:150px;
+}
+
+.glass{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 15px 50px rgba(0,0,0,.25);
+}
+
+.hero{
+  padding:28px;
+  text-align:center;
+  margin:20px 0;
+}
+
+.hero .arabic{
+  font:400 30px/1.8 Amiri;
+  color:#e8dcad;
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.8;
+  max-width:650px;
+  margin:auto;
+}
+
+.prayer{
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.location{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.location b{
+  color:#e8dfc3;
+}
+
+.clock{
+  font-size:25px;
+  color:var(--gold);
+  font-weight:600;
+}
+
+.times{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+  margin-top:14px;
+}
+
+.time-card{
+  padding:13px 8px;
+  border-radius:15px;
+  background:rgba(255,255,255,.035);
+  text-align:center;
+  border:1px solid rgba(255,255,255,.05);
+}
+
+.time-card.active{
+  border-color:rgba(223,199,123,.55);
+  background:rgba(223,199,123,.08);
+}
+
+.time-card span{
+  display:block;
+  color:#8f9d94;
+  font-size:10px;
+}
+
+.time-card strong{
+  display:block;
+  color:#eee5c8;
+  margin-top:5px;
+  font-size:15px;
+}
+
+.toolbar{
+  padding:15px;
+  display:flex;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.search{
+  flex:1;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid var(--line);
+  background:rgba(0,0,0,.2);
+  color:white;
+  outline:none;
+}
+
+.btn{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:#eee5c8;
+  border-radius:14px;
+  padding:11px 14px;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:rgba(223,199,123,.1);
+}
+
+.surah-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+}
+
+.surah-item{
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:13px;
+  cursor:pointer;
+  color:white;
+  width:100%;
+  text-align:left;
+}
+
+.surah-item:hover{
+  transform:translateY(-2px);
+}
+
+.num{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  display:grid;
+  place-items:center;
+  color:var(--gold);
+  font-size:11px;
+  flex:none;
+}
+
+.en{
+  font-weight:600;
+  font-size:12px;
+}
+
+.surah-item small{
+  display:block;
+  color:#77867c;
+  font-size:9px;
+  margin-top:3px;
+}
+
+.ar{
+  margin-left:auto;
+  font:24px Amiri;
+  color:#ddcf9b;
+}
+
+.reader{
+  padding:22px;
+  margin-top:18px;
+}
+
+.reader-head{
+  text-align:center;
+}
+
+.reader-head h2{
+  font:400 38px Amiri;
+  color:var(--gold);
+  margin:0;
+}
+
+.reader-head p{
+  color:#78867e;
+  font-size:11px;
+}
+
+.ayah{
+  padding:22px 4px;
+  border-top:1px solid rgba(255,255,255,.055);
+  cursor:pointer;
+}
+
+.ayah.active{
+  background:rgba(223,199,123,.045);
+  border-radius:14px;
+}
+
+.ayah-num{
+  color:#b9a766;
+  font-size:10px;
+  margin-bottom:10px;
+}
+
+.arabic{
+  font:32px/2 Amiri;
+  text-align:right;
+  direction:rtl;
+  color:#f2ead2;
+}
+
+.translation{
+  color:#89968e;
+  font-size:12px;
+  line-height:1.8;
+  margin-top:12px;
+}
+
+.empty{
+  text-align:center;
+  color:#738078;
+  padding:35px;
+}
+
+.player{
+  position:fixed;
+  left:50%;
+  bottom:14px;
+  transform:translateX(-50%);
+  width:min(760px,94%);
+  padding:13px 15px;
+  z-index:20;
+}
+
+.player-top{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.play{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+  background:var(--gold);
+  color:#07110c;
+  border:0;
+  font-size:16px;
+}
+
+.ctrl{
+  border:0;
+  background:rgba(255,255,255,.05);
+  color:#e7ddbd;
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+.now{
+  flex:1;
+  min-width:0;
+}
+
+.now b{
+  display:block;
+  font-size:11px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.now small{
+  color:#718078;
+  font-size:9px;
+}
+
+.range{
+  width:80px;
+  accent-color:var(--gold);
+}
+
+.adhan-panel{
+  position:fixed;
+  inset:0;
+  background:rgba(1,8,5,.82);
+  z-index:50;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+}
+
+.adhan-box{
+  width:min(500px,100%);
+  padding:30px;
+  text-align:center;
+}
+
+.adhan-box .big{
+  font:42px Amiri;
+  color:var(--gold);
+}
+
+.adhan-box h2{
+  font:30px Amiri;
+  margin:5px 0;
+}
+
+.adhan-box p{
+  color:#9ba79f;
+  font-size:12px;
+  line-height:1.7;
+}
+
+.close{
+  margin-top:16px;
+}
+
+.toast{
+  position:fixed;
+  top:15px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:60;
+  background:rgba(3,15,10,.95);
+  border:1px solid var(--line);
+  padding:10px 14px;
+  border-radius:14px;
+  font-size:11px;
+  color:#d9d0b0;
+  display:none;
+}
+
+#loading{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#020907;
+  transition:.5s;
+}
+
+#loading.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+#loadingBox{
+  text-align:center;
+}
+
+.bismillah{
+  font:35px Amiri;
+  color:#dccb91;
+}
+
+#loadingBox h2{
+  font:400 28px Amiri;
+  color:#e1d19a;
+}
+
+#loadingBox p{
+  font-size:10px;
+  color:#a2ada6;
+}
+
+.loader{
+  width:150px;
+  height:3px;
+  margin:auto;
+  background:#ffffff18;
+  overflow:hidden;
+  border-radius:10px;
+}
+
+.loader i{
+  display:block;
+  width:35%;
+  height:100%;
+  background:#d5c17d;
+  animation:load 1.2s infinite;
+}
+
+@keyframes load{
+  from{transform:translateX(-150%)}
+  to{transform:translateX(450%)}
+}
+
+@media(max-width:700px){
+
+  h1{
+    font-size:37px;
+  }
+
+  .times{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .surah-grid{
+    grid-template-columns:1fr;
+  }
+
+  .toolbar{
+    flex-wrap:wrap;
+  }
+
+  .search{
+    flex-basis:100%;
+  }
+
+  .arabic{
+    font-size:27px;
+  }
+
+  .range{
+    display:none;
+  }
+
+  .clock{
+    font-size:20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loading">
+  <div id="loadingBox">
+    <div class="bismillah">بِسْمِ اللَّهِ</div>
+    <h2>Nurul Qur’an</h2>
+    <p>Menyiapkan suasana yang tenang...</p>
+    <div class="loader"><i></i></div>
+  </div>
+</div>
+
+<header>
+  <div class="moon"></div>
+  <h1>نور القرآن</h1>
+  <p>RENUNGAN • AL-QUR'AN • WAKTU SHALAT • ADZAN</p>
+</header>
+
+<main class="wrap">
+
+<section class="hero glass">
+  <div class="arabic">
+    وَاذْكُر رَّبَّكَ إِذَا نَسِيتَ
+  </div>
+  <p>
+    Luangkan beberapa menit untuk membaca dan mendengarkan
+    Al-Qur'an. Semoga menjadi pengingat untuk mendekat kepada Allah.
+  </p>
+</section>
+
+<section class="prayer glass">
+
+  <div class="row">
+    <div class="location">
+      📍 <b id="loc">Jakarta, Indonesia</b><br>
+      <span id="dateText">Memuat waktu shalat...</span>
+    </div>
+
+    <div class="clock" id="clock">
+      --:--:--
+    </div>
+  </div>
+
+  <div class="times" id="times"></div>
+
+  <div class="row" style="margin-top:12px">
+    <span class="location" id="nextPrayer">
+      Memuat shalat berikutnya...
+    </span>
+
+    <button class="btn" id="enableAdhan">
+      🔔 Aktifkan Adzan
+    </button>
+  </div>
+
+</section>
+
+<section class="toolbar glass">
+
+  <input
+    class="search"
+    id="search"
+    placeholder="Cari nama surah..."
+  >
+
+  <button class="btn" id="locate">
+    📍 Gunakan lokasi
+  </button>
+
+</section>
+
+<section class="surah-grid" id="surahGrid">
+  <div class="glass empty">
+    Memuat 114 surah...
+  </div>
+</section>
+
+<section class="reader glass" id="reader">
+
+  <div class="reader-head">
+    <h2 id="readerName">Pilih surah</h2>
+    <p id="readerInfo">
+      Semua 114 surah tersedia setelah daftar dimuat.
+    </p>
+  </div>
+
+  <div id="ayahs">
+    <div class="empty">
+      Pilih surah untuk mulai membaca.
+    </div>
+  </div>
+
+</section>
+
+</main>
+
+<div class="player glass">
+
+  <div class="player-top">
+
+    <button class="ctrl" id="prev">⏮</button>
+
+    <button class="play" id="play">▶</button>
+
+    <button class="ctrl" id="next">⏭</button>
+
+    <div class="now">
+      <b id="now">Belum ada ayat diputar</b>
+      <small id="reciter">
+        Yasser Al-Dosari • audio online
+      </small>
+    </div>
+
+    <input
+      class="range"
+      id="vol"
+      type="range"
+      min="0"
+      max="1"
+      step=".01"
+      value=".8"
+    >
+
+  </div>
+
+</div>
+
+<div class="adhan-panel" id="adhanPanel">
+
+  <div class="adhan-box glass">
+
+    <div class="big">
+      اللَّهُ أَكْبَرُ
+    </div>
+
+    <h2 id="adhanTitle">
+      Waktu Shalat
+    </h2>
+
+    <p>
+      Telah masuk waktu shalat.
+      Semoga Allah menerima ibadah kita
+      dan memberi ketenangan pada hati.
+    </p>
+
+    <button class="btn close" id="closeAdhan">
+      Tutup
+    </button>
+
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<audio id="audio"></audio>
+
+<audio
+  id="adhanAudio"
+  preload="auto"
+  src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Adhan.ogg">
+</audio>
+
+<script>
+
+const API="https://api.alquran.cloud/v1";
+const AUDIO_API="https://quranapi.pages.dev/api/audio";
+const PRAYER_API="https://api.aladhan.com/v1";
+
+const METHOD=20;
+
+let surahs=[];
+let currentSurah=null;
+let currentAyah=0;
+let prayerTimes=null;
+let adhanEnabled=false;
+let lastAdhanKey="";
+
+const $=id=>document.getElementById(id);
+
+function toast(text){
+
+  $("toast").textContent=text;
+  $("toast").style.display="block";
+
+  setTimeout(()=>{
+    $("toast").style.display="none";
+  },3500);
+
+}
+
+function finishLoading(){
+
+  const loading=$("loading");
+
+  if(!loading)return;
+
+  loading.classList.add("hide");
+
+  setTimeout(()=>{
+    loading.remove();
+  },600);
+
+}
+
+setTimeout(finishLoading,1800);
+
+
+/* =========================
+   DAFTAR SURAH
+========================= */
+
+async function loadSurahList(){
+
+  try{
+
+    const response=await fetch(API+"/surah");
+    const json=await response.json();
+
+    surahs=json.data;
+
+    renderSurahs(surahs);
+
+  }catch(error){
+
+    $("surahGrid").innerHTML=`
+      <div class="glass empty">
+        Gagal memuat daftar surah.
+        Periksa koneksi internet.
+      </div>
+    `;
+
+  }
+
+}
+
+function renderSurahs(list){
+
+  $("surahGrid").innerHTML=list.map(s=>`
+
+    <button
+      class="surah-item glass"
+      data-id="${s.number}"
+    >
+
+      <span class="num">
+        ${s.number}
+      </span>
+
+      <span>
+
+        <span class="en">
+          ${s.englishName}
+        </span>
+
+        <small>
+          ${s.revelationType}
+          •
+          ${s.numberOfAyahs} ayat
+        </small>
+
+      </span>
+
+      <span class="ar">
+        ${s.name}
+      </span>
+
+    </button>
+
+  `).join("");
+
+  document
+    .querySelectorAll(".surah-item")
+    .forEach(button=>{
+
+      button.onclick=()=>{
+        loadSurah(Number(button.dataset.id));
+      };
+
+    });
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+$("search").oninput=e=>{
+
+  const q=e.target.value.toLowerCase();
+
+  renderSurahs(
+
+    surahs.filter(s=>
+      s.englishName.toLowerCase().includes(q) ||
+      s.name.includes(q) ||
+      String(s.number)===q
+    )
+
+  );
+
+};
+
+
+/* =========================
+   BACA SURAH
+========================= */
+
+async function loadSurah(number){
+
+  $("ayahs").innerHTML=`
+    <div class="empty">
+      Memuat ayat...
+    </div>
+  `;
+
+  $("reader").scrollIntoView({
+    behavior:"smooth"
+  });
+
+  try{
+
+    const response=await fetch(
+      `${API}/surah/${number}/editions/quran-uthmani,id.indonesian`
+    );
+
+    const json=await response.json();
+
+    const arabic=json.data[0];
+    const indonesia=json.data[1];
+
+    currentSurah={
+      number,
+      name:arabic.name,
+      englishName:arabic.englishName,
+      ayahs:arabic.ayahs.map((ayah,index)=>({
+
+        ar:ayah.text,
+        id:indonesia.ayahs[index].text
+
+      }))
+    };
+
+    currentAyah=0;
+
+    $("readerName").textContent=
+      `${arabic.name} • ${arabic.englishName}`;
+
+    $("readerInfo").textContent=
+      `${arabic.numberOfAyahs} ayat • ${arabic.revelationType}`;
+
+    renderAyahs();
+
+    loadAyah(false);
+
+  }catch(error){
+
+    $("ayahs").innerHTML=`
+      <div class="empty">
+        Gagal memuat surah.
+      </div>
+    `;
+
+  }
+
+}
+
+function renderAyahs(){
+
+  $("ayahs").innerHTML=
+    currentSurah.ayahs.map((ayah,index)=>`
+
+      <article
+        class="ayah"
+        id="a${index}"
+        onclick="selectAyah(${index})"
+      >
+
+        <div class="ayah-num">
+          ۞ ${index+1}
+        </div>
+
+        <div class="arabic">
+          ${ayah.ar}
+        </div>
+
+        <div class="translation">
+          ${ayah.id}
+        </div>
+
+      </article>
+
+    `).join("");
+
+  highlight();
+
+}
+
+function highlight(){
+
+  document
+    .querySelectorAll(".ayah")
+    .forEach((element,index)=>{
+
+      element.classList.toggle(
+        "active",
+        index===currentAyah
+      );
+
+    });
+
+}
+
+async function audioUrl(surah,ayah){
+
+  try{
+
+    const response=await fetch(
+      `${AUDIO_API}/${surah}/${ayah}.json`
+    );
+
+    const json=await response.json();
+
+    return json["4"]?.url ||
+           json["4"]?.originalUrl;
+
+  }catch(error){
+
+    return `https://everyayah.com/data/Yasser_Ad-Dussary_128kbps/${String(surah).padStart(3,"0")}${String(ayah).padStart(3,"0")}.mp3`;
+
+  }
+
+}
+
+async function loadAyah(autoPlay){
+
+  if(!currentSurah)return;
+
+  const ayah=currentAyah+1;
+
+  $("now").textContent=
+    `${currentSurah.englishName} • Ayat ${ayah}`;
+
+  highlight();
+
+  const url=
+    await audioUrl(
+      currentSurah.number,
+      ayah
+    );
+
+  $("audio").src=url;
+
+  $("audio").load();
+
+  if(autoPlay){
+    playAudio();
+  }
+
+}
+
+function selectAyah(index){
+
+  currentAyah=index;
+
+  loadAyah(true);
+
+}
+
+async function playAudio(){
+
+  try{
+
+    await $("audio").play();
+
+    $("play").textContent="❚❚";
+
+  }catch(error){
+
+    toast(
+      "Tekan tombol ▶ untuk memulai audio."
+    );
+
+  }
+
+}
+
+$("play").onclick=()=>{
+
+  if($("audio").paused){
+
+    playAudio();
+
+  }else{
+
+    $("audio").pause();
+
+    $("play").textContent="▶";
+
+  }
+
+};
+
+$("prev").onclick=()=>{
+
+  if(!currentSurah)return;
+
+  currentAyah=
+    (currentAyah-1+currentSurah.ayahs.length)
+    %
+    currentSurah.ayahs.length;
+
+  loadAyah(true);
+
+};
+
+$("next").onclick=()=>{
+
+  if(!currentSurah)return;
+
+  currentAyah=
+    (currentAyah+1)
+    %
+    currentSurah.ayahs.length;
+
+  loadAyah(true);
+
+};
+
+$("vol").oninput=e=>{
+
+  $("audio").volume=e.target.value;
+
+};
+
+$("audio").volume=.8;
+
+$("audio").onended=()=>{
+
+  if(!currentSurah)return;
+
+  if(
+    currentAyah<
+    currentSurah.ayahs.length-1
+  ){
+
+    currentAyah++;
+
+    loadAyah(true);
+
+  }else{
+
+    $("play").textContent="▶";
+
+  }
+
+};
+
+
+/* =========================
+   WAKTU SHALAT
+========================= */
+
+function pad(number){
+
+  return String(number).padStart(2,"0");
+
+}
+
+function localDate(){
+
+  const date=new Date();
+
+  return `${pad(date.getDate())}-${pad(date.getMonth()+1)}-${date.getFullYear()}`;
+
+}
+
+async function getPrayer(lat,lon){
+
+  try{
+
+    const response=await fetch(
+      `${PRAYER_API}/timings/${localDate()}?latitude=${lat}&longitude=${lon}&method=${METHOD}`
+    );
+
+    const json=await response.json();
+
+    prayerTimes=json.data.timings;
+
+    $("loc").textContent=
+      `Lokasi perangkat • ${json.data.meta.timezone}`;
+
+    $("dateText").textContent=
+      json.data.date.readable;
+
+    renderPrayer();
+
+  }catch(error){
+
+    toast(
+      "Gagal mengambil waktu shalat."
+    );
+
+  }
+
+}
+
+function renderPrayer(){
+
+  const names=[
+    ["Fajr","Subuh"],
+    ["Dhuhr","Dzuhur"],
+    ["Asr","Ashar"],
+    ["Maghrib","Maghrib"],
+    ["Isha","Isya"]
+  ];
+
+  $("times").innerHTML=
+    names.map(([key,name])=>`
+
+      <div
+        class="time-card"
+        data-prayer="${key}"
+      >
+
+        <span>${name}</span>
+
+        <strong>
+          ${prayerTimes[key]}
+        </strong>
+
+      </div>
+
+    `).join("");
+
+  updateNext();
+
+}
+
+function toMin(time){
+
+  const [hour,minute]=
+    time.split(":").map(Number);
+
+  return hour*60+minute;
+
+}
+
+function updateNext(){
+
+  if(!prayerTimes)return;
+
+  const date=new Date();
+
+  const now=
+    date.getHours()*60+
+    date.getMinutes();
+
+  const prayers=[
+    ["Fajr","Subuh"],
+    ["Dhuhr","Dzuhur"],
+    ["Asr","Ashar"],
+    ["Maghrib","Maghrib"],
+    ["Isha","Isya"]
+  ];
+
+  const next=
+    prayers.find(
+      prayer=>
+        toMin(prayerTimes[prayer[0]])>now
+    )
+    ||
+    prayers[0];
+
+  $("nextPrayer").textContent=
+    `Shalat berikutnya: ${next[1]} • ${prayerTimes[next[0]]}`;
+
+  document
+    .querySelectorAll(".time-card")
+    .forEach(card=>{
+
+      card.classList.toggle(
+        "active",
+        card.dataset.prayer===next[0]
+      );
+
+    });
+
+}
+
+
+/* =========================
+   ADZAN
+========================= */
+
+function checkAdhan(){
+
+  if(!adhanEnabled || !prayerTimes)return;
+
+  const date=new Date();
+
+  const current=
+    `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+
+  const prayers=[
+    ["Fajr","Subuh"],
+    ["Dhuhr","Dzuhur"],
+    ["Asr","Ashar"],
+    ["Maghrib","Maghrib"],
+    ["Isha","Isya"]
+  ];
+
+  for(const [key,name] of prayers){
+
+    if(prayerTimes[key]===current){
+
+      const unique=
+        localDate()+"-"+key;
+
+      if(unique!==lastAdhanKey){
+
+        lastAdhanKey=unique;
+
+        triggerAdhan(name);
+
+      }
+
+    }
+
+  }
+
+}
+
+async function triggerAdhan(name){
+
+  $("adhanTitle").textContent=
+    `Adzan ${name}`;
+
+  $("adhanPanel").style.display="flex";
+
+  try{
+
+    await $("adhanAudio").play();
+
+  }catch(error){
+
+    toast(
+      "Waktu adzan telah masuk."
+    );
+
+  }
+
+}
+
+$("enableAdhan").onclick=async()=>{
+
+  adhanEnabled=true;
+
+  try{
+
+    await $("adhanAudio").play();
+
+    $("adhanAudio").pause();
+
+    $("adhanAudio").currentTime=0;
+
+  }catch(error){}
+
+  $("enableAdhan").textContent=
+    "🔔 Adzan aktif";
+
+  toast(
+    "Adzan aktif. Biarkan halaman tetap terbuka."
+  );
+
+};
+
+$("closeAdhan").onclick=()=>{
+
+  $("adhanPanel").style.display="none";
+
+};
+
+
+/* =========================
+   LOKASI
+========================= */
+
+$("locate").onclick=()=>{
+
+  if(!navigator.geolocation){
+
+    toast(
+      "Browser tidak mendukung lokasi."
+    );
+
+    return;
+
+  }
+
+  navigator.geolocation.getCurrentPosition(
+
+    position=>{
+
+      getPrayer(
+        position.coords.latitude,
+        position.coords.longitude
+      );
+
+    },
+
+    ()=>{
+
+      toast(
+        "Izin lokasi ditolak. Menggunakan Jakarta."
+      );
+
+    },
+
+    {
+      enableHighAccuracy:true,
+      timeout:10000
+    }
+
+  );
+
+};
+
+
+/* =========================
+   JAM
+========================= */
+
+let lastMinute=-1;
+
+function clock(){
+
+  const date=new Date();
+
+  $("clock").textContent=
+    `${pad(date.getHours())}:${pad(date.getMinutes())}:${pad(date.getSeconds())}`;
+
+  if(date.getMinutes()!==lastMinute){
+
+    lastMinute=date.getMinutes();
+
+    updateNext();
+
+  }
+
+  checkAdhan();
+
+}
+
+setInterval(clock,1000);
+
+clock();
+
+
+/* =========================
+   MULAI
+========================= */
+
+getPrayer(
+  -6.2088,
+  106.8456
+);
+
+loadSurahList();
+
+</script>
+
+</body>
+    </html>
